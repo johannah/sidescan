@@ -62,20 +62,35 @@ def load_ecomapper_logs(path):
                 csv_files.append(csv_name)
 
 
+    #for x, l in enumerate(csv_files):
+    for x, l in enumerate(csv_files):
+        logging.info("Reading %s into dataframe" %l)
+        lf = pd.read_csv(l, sep=';', index_col=None, header=0,
+              parse_dates={'datetime':[2,3]})#, ignore_index=True)
+        #if x:
+        #    la = os.path.split(l)[1]
 
+        #    lf = lf.append(pd.read_csv(l, sep=';')#, index_col=None, header=0, parse_dates={'datetime':[2,3]}), ignore_index=True)
+        #else:
+        #    lf = pd.read_csv(l, sep=';', index_col=None, header=0, parse_dates={'datetime':[2,3]})
 
-    for x, l in enumerate(lfiles):
-        # may fail if the csv file is not formatted correctly
-        if x:
-            la = os.path.split(l)[1]
-            lf = lf.append(l, sep=';', index_col=None, header=0,
-                           parse_dates={'datetime':[2,3]},
-                          ignore_index=True)
-        # initialize pandas
-        else:
-            lf = pd.read_csv(l, sep=';', index_col=None, header=0,
-                         parse_dates={'datetime':[2,3]})
-    # create m/s
-    lf['Vehicle Speed (m/s)']  = lf['Vehicle Speed (kn)']*0.514444
+    #lf['Vehicle Speed (m/s)']  = lf['Vehicle Speed (kn)']*0.514444
     return lf
+
+
+    for x, l in enumerate(csv_files):
+        logging.info("Reading %s into dataframe" %l)
+        # may fail if the csv file is not formatted correctly
+        #if x:
+        #    la = os.path.split(l)[1]
+        #    lf = lf.append(l, sep=';', index_col=None, header=0,
+        #                   parse_dates={'datetime':[2,3]},
+        #                  ignore_index=True)
+        ## initialize pandas
+        #else:
+        #    lf = pd.read_csv(l, sep=';', index_col=None, header=0,
+        #                 parse_dates={'datetime':[2,3]})
+    ## create m/s
+    #lf['Vehicle Speed (m/s)']  = lf['Vehicle Speed (kn)']*0.514444
+    #return lf
 

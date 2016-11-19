@@ -1,6 +1,7 @@
 from ssproc.utils.io import load_ecomapper_logs
 from ssproc.utils import plot
-
+import logging
+logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.DEBUG)
 simg_name = 'data/bellairs.tif'
 # UpperLeft and LowerRight Corners Lat Lon of the overview image
 UL = (   13.1930568,  -59.6430313)
