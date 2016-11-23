@@ -10,9 +10,9 @@ import logging
 
 from skimage.io import imread, imsave
 
-from extract_sonar_csv import read_csv
+#from extract_sonar_csv import read_csv
 import matplotlib.pyplot as plt
-from logdoc2csv import parse_bin
+#from logdoc2csv import parse_bin
 
 def make_ordered_list(cvs):
     """This function will sort WP sidescan files
@@ -29,7 +29,7 @@ def make_ordered_list(cvs):
             max_val = index_i
     return cvns[:max_val+1]
 
-def load_ecomapper_logs(path):
+def load_sidescan_logs(path):
     """
     :path path, glob search, or a directory from which to load all files into pandas dataframe
     filetype can be '.csv' or '.logdoc'. If .logdoc, the file is first converted
@@ -93,4 +93,43 @@ def load_ecomapper_logs(path):
     ## create m/s
     #lf['Vehicle Speed (m/s)']  = lf['Vehicle Speed (kn)']*0.514444
     #return lf
+
+def load_ecomapper_log_files(path):
+     # if the path is a directory
+    if os.path.isdir(path):
+        lfiles = glob(os.path.join(path,  '*.log'))
+    # else put this log file name in a list
+    elif os.path.exists(path):
+        if path.endswith('.log'):
+            lfiles = [path]
+    else:
+        # already has search char
+        if '*' in path:
+            lfiles = glob(path)
+        else:
+            lfiles = glob(os.path.join(path, '*.log'))
+
+    if not len(lfiles):
+        logging.error("Could not find any log data files at: %s" %path)
+
+
+    for x, l in enumerate(lfiles):
+        logging.info("Reading %s into dataframe" %l)
+        # may fail if the csv file is not formatted correctly
+        la = os.path.split(l)[1]
+        if x:
+            this_log = pd.read_csv(l, sep=';', index_col=None,
+                                       header=0, parse_dates={'datetime':[2,3]})
+            this_log['log_filename'] = la
+            lf = lf.append(this_log, ignore_index=True)
+        # initialize pandas
+        else:
+            lf = pd.read_csv(l, sep=';', index_col=None, header=0,
+                             parse_dates={'datetime':[2,3]})
+            lf['log_filename'] = la
+    ## create m/s
+    lf['Vehicle Speed (m/s)']  = lf['Vehicle Speed (kn)']*0.514444
+    lf.rename(columns=lambda x: x.lower(), inplace=True)
+
+    return lf
 

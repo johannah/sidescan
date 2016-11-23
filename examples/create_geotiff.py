@@ -1,9 +1,6 @@
-from ssproc.utils import plot
-
-simg_name = 'data/bellairs.tif'
-# UpperLeft and LowerRight Corners Lat Lon of the overview image
-UL = (   13.1930568,  -59.6430313)
-LR = (   13.1905824, -59.6396834)
-gtiff, m = plot.create_geotiff(simg_name, UL, LR)
+from ssproc.utility.plot_spatial import create_geotiff
+import config as cc
+import os
+create_geotiff(cc.map_image_path, cc.geotiff_path, cc.UL_map_image, cc.LR_map_image)
 
 

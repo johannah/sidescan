@@ -167,6 +167,10 @@ def parse_sss(s):
     return port_int_str, stbd_int_str, port_floats_str, stbd_floats_str
 
 def parse_logdoc(input_file):
+    """
+    :input_file name of .logdoc sidescan sonar file to read and parse into a
+    space separated .log file with one ping per line.
+    """
     # read input file
     with open(input_file, 'rb') as f:
         data = f.read()
@@ -236,5 +240,6 @@ def parse_logdoc(input_file):
 
 
 if __name__ == '__main__':
+    # feed in logdoc file for parsing, output is .log file that is plain text
     infile = sys.argv[1]
     parse_logdoc(infile)
