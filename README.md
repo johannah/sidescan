@@ -6,7 +6,7 @@ directy will show how to plot and process various data points.
 # Data
 
 ## Ecomapper .log nav files contain data of the following types:
-
+```
 Index([u'datetime', u'latitude', u'longitude', u'number of sats',
        u'gps speed (kn)', u'gps true heading', u'gps magnetic variation',
        u'hdop', u'c magnetic heading', u'c true heading', u'pitch angle',
@@ -27,8 +27,9 @@ Index([u'datetime', u'latitude', u'longitude', u'number of sats',
        u'bga-pc cells/ml', u'odosat %', u'odo mg/l', u'battery volts',
        u'unnamed: 68', u'log_filename', u'vehicle speed (m/s)'],
       dtype='object')
-
+```
 ## Ecomapper .log file data looks like:
+```
                  datetime   latitude  longitude  number of sats  \
 0 2016-01-11 16:23:25.340  13.191885 -59.640918               7
 1 2016-01-11 16:23:26.340  13.191887 -59.640920               7
@@ -65,7 +66,7 @@ Index([u'datetime', u'latitude', u'longitude', u'number of sats',
 4          NaN  20160111_162318_Mission1_IVER2-218.log             0.519588
 
 [5 rows x 70 columns]
-
+```
 # TODO
 
 
