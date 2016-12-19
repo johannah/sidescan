@@ -8,16 +8,14 @@ import numpy as np
 import pandas as pd
 import logging
 logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.DEBUG)
-from skimage.io import imread, imsave
+from scipy.misc import imread, imsave
 from scipy.signal import medfilt, correlate2d
 
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 import matplotlib.mlab as mlab
 import LatLon
-import gdal
-from osgeo import osr
-from mpl_toolkits.basemap import Basemap, addcyclic
-plt.style.use('ggplot')
+#from mpl_toolkits.basemap import Basemap, addcyclic
+#plt.style.use('ggplot')
 
 import geotiff_meta_generator as gtmg
 from mrss_tools import make_ordered_list
@@ -54,19 +52,19 @@ def create_geotiff(screenshot_name, geotiff_name,  UL, LR, m=None, df=None, cont
     bname = '.'.join(screenshot_name.split('.')[:-1])
     if df is not None:
         # make contour_on filename that is safe
-        fig = plt.figure(frameon=False)
+        #fig = plt.figure(frameon=False)
         logging.info("Creating basemap object, this may take a while")
         plot_contour(df, m, gtiff, on=contour_on, sigma=2)
         end  = screenshot_name.split('.')[-1]
         input_name = bname + '_contour.' + end
-        fig.savefig(input_name, bbox_inches='tight', pad_inches=0)
+        #fig.savefig(input_name, bbox_inches='tight', pad_inches=0)
     else:
         input_name = screenshot_name
 
     # needs gdal to run
     logging.info("Creating geotif image: %s" %geotiff_name)
     #os.system('geotifcp -g %s %s %s' %(meta_name, screenshot_name, geotiff_name))
-    cmd = "gdal_translate -a_ullr %.16f %.16f %.16f %.16f %s %s" %(UL[1], UL[0],
+    cmd = "gdal_translate -a_nodata 0 -of GTiff -a_srs EPSG:4326  -a_ullr %.16f %.16f %.16f %.16f %s %s" %(UL[1], UL[0],
                                                                   LR[1], LR[0],
                                                   screenshot_name, geotiff_name)
     os.system(cmd)
@@ -90,9 +88,9 @@ def plot_contour(lf, m, gtiff=None,  on="total water column(m)", sigma=2):
     zif = mlab.griddata(xu, yu, z, xi, yi, interp='linear')
     #zif = gaussian_filter(zi, sigma=sigma)
 
-    if gtiff is not  None:
-        m.imshow(gtiff[::-1, :])
-    m.contourf(Y, X, zif, cmap=plt.cm.Blues, levels=np.linspace(z.min(), z.max(), 7))
+    #if gtiff is not  None:
+    #    m.imshow(gtiff[::-1, :])
+    #m.contourf(Y, X, zif, cmap=plt.cm.Blues, levels=np.linspace(z.min(), z.max(), 7))
 
     #plt.clabel(t, fontsize=9, inline=1)
     #plt.colorbar()
@@ -108,14 +106,14 @@ def plot_tracks(lf, m, gtiff=None, write_to=None, on="total water column (m)"):
 
     yu, xu = m(np.asarray(lf['longitude']),
                np.asarray(lf['latitude']))
-    fig = plt.figure(figsize=(10,8))
-    plt.title("Tracks Plot")
-    if gtiff is not  None:
-        m.imshow(gtiff[::-1, :])
-    m.scatter(yu, xu, c=lf[on], vmin=0, vmax=7, cmap=plt.cm.RdPu, edgecolor="None",  s=10)
-    #plt.colorbar()
-    plt.show()
-    if write_to is not None:
-        fig.savefig(write_to)#, bbox_inches='tight', pad_inches=0)
+    #fig = plt.figure(figsize=(10,8))
+    #plt.title("Tracks Plot")
+    #if gtiff is not  None:
+    #    m.imshow(gtiff[::-1, :])
+    #m.scatter(yu, xu, c=lf[on], vmin=0, vmax=7, cmap=plt.cm.RdPu, edgecolor="None",  s=10)
+    ##plt.colorbar()
+    #plt.show()
+    #if write_to is not None:
+    #    fig.savefig(write_to)#, bbox_inches='tight', pad_inches=0)
 
 
