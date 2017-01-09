@@ -8,7 +8,7 @@ import numpy as np
 import pandas as pd
 import logging
 
-from skimage.io import imread, imsave
+from scipy.misc import imread, imsave
 
 #from extract_sonar_csv import read_csv
 import matplotlib.pyplot as plt
