@@ -3,6 +3,7 @@ import os
 import logging
 import pickle
 import config as cc
+import matplotlib.pyplot as plt
 logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.DEBUG)
 
 if not os.path.exists(cc.nav_df_path):
@@ -10,5 +11,7 @@ if not os.path.exists(cc.nav_df_path):
     pickle.dump(lf, open(cc.nav_df_path, 'wb'))
 else:
     lf = pickle.load(open(cc.nav_df_path, 'rb'))
-plt.figure()
 
+print(lf.columns)
+
+print(lf.head())
